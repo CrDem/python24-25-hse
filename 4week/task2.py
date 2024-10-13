@@ -1,21 +1,11 @@
-"""
-leetcode.com/problem-list/string/
-url: https://leetcode.com/problems/generate-parentheses/description
-"""
+# https://leetcode.com/problems/minimum-number-of-operations-to-make-array-xor-equal-to-k/submissions/1421378395/
+from typing import List
 
 
 class Solution:
-    def __init__(self):
-        self.res = []
-
-    def wayGenerator(self, g, v, n: int, way: str):
-        if (g == n and v == n):
-            self.res.append(way)
-            return
-        if (g > n or v > g): return
-        self.wayGenerator(g, v + 1, n, way + ')')
-        self.wayGenerator(g + 1, v, n, way + '(')
-
-    def generateParenthesis(self, n: int) -> List[str]:
-        self.wayGenerator(1, 0, n, "(")
-        return self.res
+    def minOperations(self, nums: List[int], k: int) -> int:
+        ans = 0
+        for i in nums:
+            ans ^= i
+        ans = ans ^ k
+        return bin(ans).count("1")

@@ -1,27 +1,20 @@
-"""
-leetcode.com/problem-list/string/
-url: https://leetcode.com/problems/longest-valid-parentheses/description
-"""
+# https://leetcode.com/problems/maximum-binary-tree/
+from idlelib.tree import TreeNode
+from typing import List, Optional
 
 
 class Solution:
-    def __init__(self):
-        self.res = 0
+    def constructMaximumBinaryTree(self, nums: List[int]) -> Optional[TreeNode]:
+        def BFS(nums):
+            if not nums:
+                return None
+            maxvalue, index = float("-inf"), -1
+            for i in range(len(nums)):
+                if nums[i] > maxvalue:
+                    maxvalue = nums[i]
+                    index = i
+            root = TreeNode(maxvalue)
+            root.left, root.right = BFS(nums[0:index]), BFS(nums[index + 1 :])
+            return root
 
-    def resFinding(self, s, r: str):
-        leftPointer = 0
-        currP = 0
-        for charId in range(len(s)):
-            if s[charId] == r:
-                currP += 1
-            else:
-                if currP > 0:
-                    currP -= 1
-                else:
-                    leftPointer = charId + 1
-            if (currP == 0): self.res = max(self.res, charId - leftPointer + 1)
-
-    def longestValidParentheses(self, s: str) -> int:
-        self.resFinding(s, '(')
-        self.resFinding(s[::-1], ')')
-        return self.res
+        return BFS(nums)

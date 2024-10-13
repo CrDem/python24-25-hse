@@ -1,19 +1,21 @@
-"""
-leetcode.com/problem-list/string/
-url: https://leetcode.com/problems/letter-combinations-of-a-phone-number/description
-"""
-from itertools import product
+# https://leetcode.com/problems/max-increase-to-keep-city-skyline/submissions/1421377982/
+from typing import List
 
 
 class Solution:
-    def letterCombinations(self, digits: str) -> list[str]:
-        res = []
-        res1 = []
-        dictionary = [['a', 'b', 'c'], ['d', 'e', 'f'], ['g', 'h', 'i'], ['j', 'k', 'l'], ['m', 'n', 'o'],
-                      ['p', 'q', 'r', 's'], ['t', 'u', 'v'], ['w', 'x', 'y', 'z']]
-        for number in digits:
-            res.append(dictionary[int(number) - 2])
-        if len(digits) > 0:
-            return ["".join(l) for l in product(*res)]
-        else:
-            return res1
+    def maxIncreaseKeepingSkyline(self, grid: List[List[int]]) -> int:
+
+        N = len(grid)
+        M = len(grid[0])
+
+        grid_t = zip(*grid)
+
+        sk_v = [max(row) for row in grid]
+        sk_h = [max(row) for row in grid_t]
+
+        res = 0
+        for i in range(N):
+            for j in range(M):
+                diff = min(sk_h[j], sk_v[i]) - grid[i][j]
+                res += diff
+        return res
